@@ -29,7 +29,7 @@
               "});",
               "",
               "pm.test(\"Response time < 1000ms\", function () {",
-              "    pm.expect(pm.response.responseTime).to.be.below(800);",
+              "    pm.expect(pm.response.responseTime).to.be.below(1000);",
               "});"
             ]
           }
