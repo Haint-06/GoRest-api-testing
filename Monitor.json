@@ -5,6 +5,18 @@
   },
   "item": [
     {
+      "name": "Warm-up (khong do)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/users",
+          "host": ["{{base_url}}"],
+          "path": ["users"]
+        }
+      }
+    },
+    {
       "name": "GET Users - Response Time",
       "event": [
         {
@@ -16,7 +28,7 @@
               "    pm.response.to.have.status(200);",
               "});",
               "",
-              "pm.test(\"Response time < 1000ms\", function () {",
+              "pm.test(\"Response time < 800ms\", function () {",
               "    pm.expect(pm.response.responseTime).to.be.below(800);",
               "});"
             ]
