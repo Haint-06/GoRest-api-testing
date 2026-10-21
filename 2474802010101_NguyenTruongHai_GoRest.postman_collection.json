@@ -1,0 +1,414 @@
+{
+  "info": {
+    "_postman_id": "f73ea0d0-a737-416d-b92e-ab09d1612d26",
+    "name": "2474802010101_NguyenTruongHai_GoRest",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "59052222",
+    "_collection_link": "https://go.postman.co/collection/59052222-f73ea0d0-a737-416d-b92e-ab09d1612d26?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Positive_Cases",
+      "item": [
+        {
+          "name": "Request_1",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code là 201\", () => pm.response.to.have.status(201));\r",
+                  "\r",
+                  "if (pm.response.code === 201) {\r",
+                  "  const res = pm.response.json();\r",
+                  "  pm.environment.set(\"userId\", res.id);\r",
+                  "  pm.environment.set(\"userEmail\", res.email);\r",
+                  "\r",
+                  "  pm.test(\"Email trả về khớp với dòng CSV\", () => {\r",
+                  "    pm.expect(res.email).to.eql(pm.iterationData.get(\"email\"));\r",
+                  "  });\r",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"{{name}}\",\r\n  \"gender\": \"{{gender}}\",\r\n  \"email\": \"{{email}}\",\r\n  \"status\": \"{{status}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/users",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Request_2",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code là 200\", () => pm.response.to.have.status(200));\r",
+                  "pm.test(\"ID đúng với user vừa tạo\", () => {\r",
+                  "  pm.expect(pm.response.json().id).to.eql(Number(pm.environment.get(\"userId\")));\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/users/{{userId}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "{{userId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Request_3",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code là 200\", () => pm.response.to.have.status(200));\r",
+                  "pm.test(\"Status đã đổi thành inactive\", () => {\r",
+                  "  pm.expect(pm.response.json().status).to.eql(\"inactive\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"status\": \"inactive\" }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/users/{{userId}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "{{userId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Request_4",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code là 204 No Content\", () => pm.response.to.have.status(204));"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/users/{{userId}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "{{userId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Negative_Cases",
+      "item": [
+        {
+          "name": "Request_5",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code là 401\", () => pm.response.to.have.status(401));"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"No Token User\",\r\n  \"gender\": \"male\",\r\n  \"email\": \"notoken_{{$timestamp}}@example.com\",\r\n  \"status\": \"active\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/users",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Request_6",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code là 422\", () => pm.response.to.have.status(422));\r",
+                  "pm.test(\"Báo lỗi email đã tồn tại\", () => {\r",
+                  "  const err = pm.response.json().find(e => e.field === \"email\");\r",
+                  "  pm.expect(err).to.exist;\r",
+                  "  pm.expect(err.message).to.include(\"already been taken\");\r",
+                  "});\r",
+                  "\r",
+                  "const seedId = pm.environment.get(\"seedUserId\");\r",
+                  "if (seedId) {\r",
+                  "  pm.sendRequest({\r",
+                  "    url: pm.environment.get(\"base_url\") + \"/users/\" + seedId,\r",
+                  "    method: \"DELETE\",\r",
+                  "    header: { \"Authorization\": \"Bearer \" + pm.environment.get(\"token\") }\r",
+                  "  }, () => pm.environment.unset(\"seedUserId\"));\r",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.sendRequest({\r",
+                  "  url: pm.environment.get(\"base_url\") + \"/users\",\r",
+                  "  method: \"POST\",\r",
+                  "  header: {\r",
+                  "    \"Authorization\": \"Bearer \" + pm.environment.get(\"token\"),\r",
+                  "    \"Content-Type\": \"application/json\"\r",
+                  "  },\r",
+                  "  body: {\r",
+                  "    mode: \"raw\",\r",
+                  "    raw: JSON.stringify({\r",
+                  "      name: \"Dup Seed\",\r",
+                  "      gender: \"male\",\r",
+                  "      email: pm.environment.get(\"userEmail\"),\r",
+                  "      status: \"active\"\r",
+                  "    })\r",
+                  "  }\r",
+                  "}, (err, res) => {\r",
+                  "  if (!err && res.code === 201) {\r",
+                  "    pm.environment.set(\"seedUserId\", res.json().id);\r",
+                  "  }\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Duplicate User\",\r\n  \"gender\": \"male\",\r\n  \"email\": \"{{userEmail}}\",\r\n  \"status\": \"active\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/users",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Request_7",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code là 404 (user đã bị xóa)\", () => {\r",
+                  "  pm.response.to.have.status(404);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Thông báo Resource not found\", () => {\r",
+                  "  pm.expect(pm.response.json().message).to.eql(\"Resource not found\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/users/{{userId}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "{{userId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
