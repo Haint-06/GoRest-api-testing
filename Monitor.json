@@ -28,12 +28,8 @@
         "header": [],
         "url": {
           "raw": "{{base_url}}/users",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "users"
-          ]
+          "host": ["{{base_url}}"],
+          "path": ["users"]
         }
       }
     }
