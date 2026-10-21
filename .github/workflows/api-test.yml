@@ -22,4 +22,5 @@ jobs:
           newman run 2474802010101_NguyenTruongHai_GoRest.postman_collection.json
           -e 2474802010101_NguyenTruongHai_Env.postman_environment.json
           -d users.csv
+          --env-var "base_url=https://gorest.co.in/public/v2"
           --env-var "token=${{ secrets.GOREST_TOKEN }}"
