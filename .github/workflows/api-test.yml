@@ -19,7 +19,7 @@ jobs:
 
       - name: Run API tests (Data-Driven)
         run: >
-          newman run 2474802010101_NguyenTruongHai_Env.postman_environment.json
-          -e Environment.json
+          newman run 2474802010101_NguyenTruongHai_GoRest.postman_collection.json
+          -e 2474802010101_NguyenTruongHai_Env.postman_environment.json
           -d users.csv
           --env-var "token=${{ secrets.GOREST_TOKEN }}"
